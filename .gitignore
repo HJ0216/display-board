@@ -1,0 +1,46 @@
+# IntelliJ IDEA 관련 파일
+.idea/
+
+# Gradle Wrapper JAR 파일
+gradle/wrapper/gradle-wrapper.jar
+
+# OS에서 생성하는 불필요한 파일
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 빌드 및 캐시 파일
+.gradle/
+**/build/
+!src/**/build/
+
+# IDE 관련
+.vscode/
+.history/
+
+# Java 관련
+*.class
+*.jar
+*.war
+*.log
+hs_err_pid*
+
+# Maven 관련
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse 관련
+.metadata
+.settings/
+.project
+.classpath
+.externalToolBuilders/
