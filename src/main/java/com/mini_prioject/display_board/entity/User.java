@@ -2,6 +2,7 @@ package com.mini_prioject.display_board.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,12 +10,18 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "USERS")
 public class User {
   @Id
@@ -24,7 +31,7 @@ public class User {
   @Column(nullable = false, unique = true, length = 20)
   private String userId;
 
-  @Column(nullable = false, length = 20)
+  @Column(nullable = false, length = 100)
   private String password;
 
   @Column(nullable = false, unique = true, length = 50)
@@ -36,9 +43,11 @@ public class User {
   @Column(nullable = true, length = 255)
   private String profileUrl;
 
+  @CreatedDate
   @Column(nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
+  @LastModifiedDate
   @Column(nullable = false)
   private LocalDateTime updatedAt;
 
