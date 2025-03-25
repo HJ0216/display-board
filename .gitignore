@@ -44,3 +44,6 @@ buildNumber.properties
 .project
 .classpath
 .externalToolBuilders/
+
+# 환경변수 관련
+.env
