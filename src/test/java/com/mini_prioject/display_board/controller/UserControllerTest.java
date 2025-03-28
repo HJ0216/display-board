@@ -54,11 +54,11 @@ class UserControllerTest {
 
   @Test
   @DisplayName("회원가입 성공 테스트")
-  void createUserSuccessTest() throws Exception {
+  void createUser_WhenValidRequest() throws Exception {
     // given
     JoinRequest request = JoinRequest.builder()
                                      .userId("testUser")
-                                     .password("password123@!")
+                                     .password("passwOrd123@!")
                                      .email("test@example.com")
                                      .nickname("nickname")
                                      .isAdmin(false)
@@ -78,5 +78,61 @@ class UserControllerTest {
            .andExpect(status().isCreated())
            .andExpect(jsonPath("$.userId").value("testUser"))
            .andExpect(jsonPath("$.message").value("user.create.success"));
+  }
+
+  @Test
+  @DisplayName("회원가입 실패: 비밀번호 유효성 검사 실패")
+  void createUser_WhenInvalidPassword() throws Exception {
+    // given
+    JoinRequest request = JoinRequest.builder()
+                                     .userId("testUser")
+                                     .password("1234")
+                                     .email("test@example.com")
+                                     .nickname("nickname")
+                                     .isAdmin(false)
+                                     .build();
+
+    JoinResponse response = JoinResponse.builder()
+                                        .userId("testUser")
+                                        .message("user.create.fail")
+                                        .build();
+
+    given(userService.join(request)).willReturn(response);
+
+    // when & then
+    mockMvc.perform(post("/api/v1/users")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(objectMapper.writeValueAsString(request)))
+           .andExpect(status().isBadRequest())
+           .andExpect(jsonPath("$.userId").value("testUser"))
+           .andExpect(jsonPath("$.message").value("{password=비밀번호는 숫자, 소문자, 대문자, 특수문자를 포함해야 합니다}"));
+  }
+
+  @Test
+  @DisplayName("회원가입 실패: 이메일 유효성 검사 실패")
+  void createUser_WhenInvalidEmail() throws Exception {
+    // given
+    JoinRequest request = JoinRequest.builder()
+                                     .userId("testUser")
+                                     .password("passwOrd123@!")
+                                     .email("test")
+                                     .nickname("nickname")
+                                     .isAdmin(false)
+                                     .build();
+
+    JoinResponse response = JoinResponse.builder()
+                                        .userId("testUser")
+                                        .message("user.create.fail")
+                                        .build();
+
+    given(userService.join(request)).willReturn(response);
+
+    // when & then
+    mockMvc.perform(post("/api/v1/users")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(objectMapper.writeValueAsString(request)))
+           .andExpect(status().isBadRequest())
+           .andExpect(jsonPath("$.userId").value("testUser"))
+           .andExpect(jsonPath("$.message").value("{email=이메일 형식이 올바르지 않습니다.}"));
   }
 }
