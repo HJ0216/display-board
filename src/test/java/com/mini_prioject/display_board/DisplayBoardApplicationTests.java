@@ -9,5 +9,4 @@ class DisplayBoardApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
