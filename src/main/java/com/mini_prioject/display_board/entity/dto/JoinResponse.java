@@ -6,6 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class JoinResponse {
+  private int id;
   private String userId;
   private String message;
 }
