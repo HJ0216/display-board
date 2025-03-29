@@ -35,4 +35,9 @@ public class UserService {
                        .message("user.create.success")
                        .build();
   }
+
+  public boolean isUserIdDuplicate(String userId) {
+    return userRepository.existsByUserId(userId);
+  }
+
 }

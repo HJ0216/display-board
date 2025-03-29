@@ -1,5 +1,6 @@
 package com.mini_prioject.display_board.entity.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -15,6 +16,7 @@ public class JoinRequest {
   @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
       message = "비밀번호는 숫자, 소문자, 대문자, 특수문자를 포함해야 합니다")
   private String password;
+  @Email(message = "이메일 형식이 올바르지 않습니다.")
   private String email;
   private String nickname;
   private Boolean isAdmin;

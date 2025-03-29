@@ -1,5 +1,6 @@
 package com.mini_prioject.display_board.controller;
 
+import com.mini_prioject.display_board.entity.dto.CheckDuplictionIdResponse;
 import com.mini_prioject.display_board.entity.dto.JoinRequest;
 import com.mini_prioject.display_board.entity.dto.JoinResponse;
 import com.mini_prioject.display_board.service.UserService;
@@ -45,6 +46,23 @@ public class UserController {
 
     return ResponseEntity.status(HttpStatus.CREATED)
                          .body(userService.join(request));
+  }
+
+  @GetMapping("check-id-duplication")
+  public ResponseEntity<CheckDuplictionIdResponse> checkDuplicationId(@RequestParam String userId) {
+    if(userService.isUserIdDuplicate(userId)) {
+      return ResponseEntity.status(HttpStatus.CONFLICT)
+                           .body(CheckDuplictionIdResponse.builder()
+                                                          .userId(userId)
+                                                          .message("user.check-id-duplication.fail")
+                                                          .build());
+    }
+
+    return ResponseEntity.status(HttpStatus.OK)
+                         .body(CheckDuplictionIdResponse.builder()
+                                                        .userId(userId)
+                                                        .message("user.check-id-duplication.success")
+                                                        .build());
   }
 
 }
